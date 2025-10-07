@@ -394,4 +394,20 @@ for(){
 ```{r}
 mtcars$Transmission<-NA
 mtcars$Transmission<-ifelse(mtcars$am==0, "automatic",  "manual")
+
 ```
+
+Rose = Dream
+Hyde = Torgersen
+Jekyll = Biscoe
+```{r}
+data(penguins)
+penguins$favIsland<- NA
+for (i in 1:nrow(penguins)) {
+  if(penguins$island[i]=="Torgersen"){penguins$favIsland[i]<-"Hyde"
+  } 
+  if(penguins$island[i]=="Dream"){penguins$favIsland[i]<-"Rose"
+  } 
+  if(penguins$island[i]=="Biscoe"){penguins$favIsland[i]<-"Jekyll"}}
+```
+

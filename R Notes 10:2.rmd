@@ -54,14 +54,13 @@ As mentioned above, the current data are in wide format. We can change this to l
 I think this is the easiest version to use. We'll need to use the "tidyverse" library. 
 ```{r}
 library(tidyverse)
-
 ```
 `pivot_longer()` uses the following structure: 
 `pivot_longer(dataframe, columns containing wide data, names_to, values_to)`
 names_to: specifies what you'd like to call the column that contains the previous column names
 values_to: specifies the name of the column where the scores go
 ```{r}
-
+aggressionLongDat<- pivot_longer(AggressionDat, cols = c("baselineAggression", "postAggression"), names_to = "timePoint", values_to = "aggressionScore")
 ```
 **Note:** remember to save the data to your environment. 
 
@@ -69,12 +68,12 @@ values_to: specifies the name of the column where the scores go
 1. Open the relig_income dataset.
 
 ```{r}
-
+data("relig_income")
 ```
 
 2. Restructure the dataset so that it is in long format. 
 ```{r}
-
+religIncomeLong<- pivot_longer(relig_income, cols = c(2:10), names_to = "IncomeAmt", values_to = "NumberParticipants")
 ```
 
 **gather** 
@@ -84,29 +83,28 @@ key- what you'd like the column containing old column names to be called
 value- what you'd like the scores column to be called
 
 ```{r}
-
+longDat2<- gather(AggressionDat, key = "timePoint", value = "aggressionScore", c("baselineAggression", "postAggression"))
 ```
 
 **melt**
 `melt()` is a function in the reshape2 library. It's another way to create long data
 ```{r}
-
+library(reshape2)
+melt(AggressionDat, id.vars= c("subjNo", "ageGroup", "parentReportGender", "condition"), measure.vars = c("baselineAggression", "postAggression"), variable.names = "timepoint", value.name = "aggressionScore")
 ```
 `melt()` uses the following arguments: 
 `melt(dataframe, id.vars, measure.vars, variable.name, value.name)`
-```{r}
-
-```
 
 ###practice: 
 
 1. open the billboard dataset. 
 ```{r}
-
+library(tidyverse)
+data("billboard")
 ```
 2. convert it from wide to long format. 
 ```{r}
-
+billboardLong<- pivot_longer(billboard, cols = c(4:79), names_to = "WeeksBillboard", values_to = "ChartRating")
 ```
 
 ### Learning Outcome 2: Transform data from long to wide
@@ -116,7 +114,7 @@ As above, we'll restructure the data in three ways. Again, some ways are more in
 The pair function for pivot_longer. It has the following arguments: 
 `pivot_wider(dataset, id columns, names_from, values_from)`
 ```{r}
-
+aggressionWide<- pivot_wider(aggressionLongDat, id_cols = c("subjNo", "ageGroup", "condition", "parentReportGender"), names_from = "timePoint", values_from = "aggressionScore")
 ```
 
 **spread** 
@@ -124,7 +122,7 @@ is the pair function for gather. It has the following arguments:
 `spread(data, key, value, columns to make wide)`
 key = timepoint; value = aggression score
 ```{r}
-
+longDat2<- spread(aggressionLongDat, key = "timePoint", value = "aggressionScore")
 ```
 
 **dcast**
@@ -132,7 +130,7 @@ cast functions are the pairs to melt. `dcast()` specifically is used for datafra
 dcast has the following arguments: 
 `dcast(data, formula)`
 ```{r}
-#datWide3<- dcast(aggressionLong3, formula= subjNo+ ageGroup+parentReportGender+condition~variable name)
+datWide3<- dcast(aggressionLongDat, formula= subjNo+ ageGroup+parentReportGender+condition~timePoint)
 
 ```
 **Note:** dcast is really not intuitive. I pretty much determine the correct order through trial and error every time. 
@@ -140,17 +138,17 @@ dcast has the following arguments:
 #### Learning Outcome 2: Practice
 1. Open the ChickWeight dataset.
 ```{r}
-
+data("ChickWeight")
 ```
 
 2. Convert it from long to wide format. 
 ```{r}
-
+wideChick2<- pivot_wider(ChickWeight, id_cols = c("Chick", "Diet"), names_from = "Time", values_from = "weight")
 ```
 
 3. Convert from wide to long. 
 ```{r}
-
+longChick2<-pivot_longer(wideChick2, cols = c(3:14), names_to = "Week", values_to = "WeightofChickie")
 ```
 
 
@@ -178,16 +176,24 @@ you can use some of the commands we've already used in a different structure
 
 1) open sleep data set
 ```{r}
-
+data(sleep)
 ```
 
 2) identify the type of data
 
+```{r}
+print(sleep)
+```
+
 3) change it to the other type
+```{r}
+wideSleep<- pivot_wider(sleep, id_cols = c("ID"), names_from = "group", values_from = "extra")
+```
 
 4) Go back to the chick weight dataset and take all data from chick 3 and put it in wide format 
 ```{r}
-
+Chick3<-subset()
+wideChick3<-pivot_wider(ChickWeight, id_cols = c("Chick", "Diet"), names_from = "Time", values_from = "weight")
 ```
 
 ### Learning Outcome 3: Join data sets in R

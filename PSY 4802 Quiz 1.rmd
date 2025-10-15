@@ -24,41 +24,52 @@ data("starwars")
 
 3. Create a subset of data that contains only the humans from the starwars franchise.
 ```{r}
-OnlyHuman<-subset()
+OnlyHuman<-subset(starwars, starwars$species == "Human")
+OnlyHuman
 ```
 
 4. In this subset of data, who is the tallest character? 
 ```{r}
-
+summary(OnlyHuman$height)
+print(OnlyHuman %>% filter(height=="202"))
 ```
+The tallest height is 202 cm, which is Darth Vader.
 
 5. In this subset of data, print the information about the character in the third row. 
 ```{r}
-
+OnlyHuman[3, ]
 ```
 
 6. In the full starwars dataset, calculate the average mass for the masculine characters. 
 ```{r}
-
+MassMascSW <- starwars %>% filter(gender == "masculine") 
+mean(MassMascSW$mass, na.rm = TRUE)
 ```
+R does not appreciate looking at the average mass for the masculine characters, because there are some characters that do not have a mass listed. I searched online to find a way to exclude values that are NA, and I found the na.rm function through a few different websites, one being GeeksforGeeks.org, and I used that here. 
 
 7. Create a dataset that contains only the characters and the films that they appeared in from the full dataset. 
 ```{r}
-
+CharacterAndMovie<- starwars %>% select(name, films)
+CharacterAndMovie
 ```
 
 8. Create a new column in the starwars dataset that contains a "ranking" of all characters (Note: you don't have to actually rank them. Just fill the column in with the numbers 1-87)
 ```{r}
-CharacterRanking<-
+starwars$Ranking<- sample(1:87, 87, replace = TRUE)
+print(starwars$Ranking)
 ```
 
 9. Create a subset of data for the characters from Naboo. How many characters are from Naboo? 
 ```{r}
-
+FromNaboo<-subset(starwars, starwars$homeworld == "Naboo")
+FromNaboo
+nrow(FromNaboo)
 ```
+There are 11 characters from Naboo. 
 
 10. How many droids are in the full dataset? 
 ```{r}
-
+DroidOnly<-starwars[starwars$species=="Droid", ]
+nrow(DroidOnly)
 ```
-
+There are 10 droids in the full dataset. 

@@ -339,13 +339,19 @@ ggplot(mtcars, aes(as.factor(cyl), mpg))+ geom_boxplot(color = "steelblue")+geom
 ggplot(mtcars, aes(as.factor(cyl), mpg))+geom_violin()+geom_jitter()
 ```
 
-```{r best graph}
+```{r}
+data(StudentMHDat)
+```
 
+
+```{r best graph}
+custom_colors <- c("0" = "lightblue2","1" = "steelblue","2" = "steelblue1","3" = "steelblue2", "4" = "steelblue3", "5" = "steelblue4")
+ggplot(StudentMHDat, aes(cortisolLevel, fill = as.factor(stressLevel)))+geom_bar()+theme_bw()+scale_fill_manual(values = custom_colors)+xlab("Cortisol Levels")+ylab("Stress Level Frequency")+ggtitle("Student Cortisol and Stress Levels")+guides(fill = guide_legend(title = "Rating of Stress"))
 ```
 
 
 ```{r worst graph}
-
+ggplot(StudentMHDat, aes(stressLevel, cortisolLevel))+geom_point(color = "maroon1", size = 6, shape = 40)+theme(panel.background = element_rect(fill = "olivedrab1"))+geom_smooth(method = "lm", color = "orange")
 ```
 
 
@@ -371,13 +377,13 @@ There are many ways that we can include third variables.
 For histograms/bar graphs: 
 use fill = 
 ```{r}
-
+ggplot(diamonds, aes(price, fill = color))+geom_histogram(bins = 15)
 ```
 
 For scatter plots: 
 color = 
 ```{r}
-
+ggplot(diamonds, aes(price, carat, color = cut))+geom_point()
 ```
 
 Rather than having all bars/dots/lines the same color, you can have them change by using various packages and by looking up a few color codes online. 
@@ -386,40 +392,45 @@ If you don't like the colors, we can specify specific ones using `scale_fill_man
 (need to specify option for color scales)
 We'll walk through these together because I think it's helpful to see what color combinations exist and how you can use them in a bar graph or a scatter plot.
 ```{r}
-
+ggplot(diamonds, aes(price, fill = color))+geom_histogram(position = position_dodge(), bins = 10)+scale_fill_manual(values = c("maroon1", "maroon2", "maroon3", "maroon", "maroon4", "darkorchid4", "purple4"))
 ```
 `scale_color_manual(values = #)`; 
 ```{r}
-
+ggplot(diamonds, aes(price, carat, color = cut))+geom_point()+scale_color_manual(values = c("maroon1", "maroon2", "maroon3", "maroon", "maroon4", "darkorchid4", "purple4"))
 ```
 
 R ColorBrewer
 `scale_color_brewer(palette=)`
 ```{r}
+ggplot(diamonds, aes(price, carat, color = cut))+geom_point()+scale_color_brewer(palette = "PiYG")
 
+ggplot(diamonds, aes(price, fill = color))+geom_histogram()+scale_fill_brewer(palette = "Set2")
 ```
 
 Viridis
 `scale_color_viridis()`
 ```{r}
+library(viridis)
+ggplot(diamonds, aes(price, fill = color))+ geom_histogram()+scale_fill_viridis(discrete = TRUE, option = "F")
 
+ggplot(diamonds, aes(price, carat, color = cut))+ geom_point()+scale_color_viridis(discrete = TRUE, option = "B")
 ```
 
 
 ### Learning Outcome 4 Practice. 
 1. Create a graph of bill length and island
 ```{r}
-
+ggplot(penguins, aes(bill_length_mm, fill = island))+geom_histogram(position = position_dodge(), bins = 10)+scale_fill_viridis(discrete = TRUE, option = "B")+theme_bw()+xlab("Bill Length")+ylab("Frequency")+ggtitle("Frequency of Bill Length on Each Island")+guides(fill = guide_legend(title = "Island"))
 ```
 
 2. In some way, include species as a third variable in this graph. 
 ```{r}
-
+ggplot(penguins, aes(bill_length_mm, island, fill = species))+geom_boxplot()+theme_bw()+xlab("Bill Length")+ylab("Island")+ggtitle("Frequency of Bill Length on Each Island")+guides(fill = guide_legend(title = "Species"))
 ```
 
 3. Create a graph of bill length and bill depth
 ```{r}
-
+ggplot(penguins, aes(bill_length_mm, fill = island))+geom_histogram(position = position_dodge(), bins = 10)+scale_fill_brewer(palette = "Set3")+theme_bw()+xlab("Bill Length")+ylab("Frequency")+ggtitle("Frequency of Bill Length on Each Island")+guides(fill = guide_legend(title = "Island"))
 ```
 4. In some way, include species as a third variable.
 ```{r}

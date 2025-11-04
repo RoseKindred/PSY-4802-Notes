@@ -1,0 +1,79 @@
+---
+title: "GG Plot Assignment Part 2"
+output: html_document
+date: "2025-10-30"
+---
+
+---
+title: "ggplot part 2 assignment"
+author: "Amanda Mae Woodward"
+date: "2025-10-24"
+output: html_document
+---
+
+1.  Open the starwars dataset (located in tidyverse)
+
+```{r}
+library(tidyverse)
+data("starwars")
+```
+
+2.  Create a scatter plot of character's height and mass.
+
+```{r}
+ggplot(starwars, aes(height, mass))+geom_point()+theme_bw()
+```
+
+2a. Change the color and shape of the points in your scatter plot.
+
+```{r}
+ggplot(starwars, aes(height, mass))+geom_point(color = "steelblue", shape = 4)+theme_bw()
+```
+
+3.  Add Homeworld as a third variable to your scatterplot.
+
+```{r}
+ggplot(starwars, aes(height, mass, color = homeworld))+geom_point(shape = 4)+theme_bw()
+```
+
+3a. What do you notice about the graph? (e.g. describe what you see)
+
+The graph has a fairly consistent trend of the taller the character gets, the heavier their mass, except for one character that is a strong outlier (about 175 cm and over 1000 kg). It also appears that quite a few of the data points fall within a small range of a little above 150 cm to a little under 200 cm. 
+
+4.  Make a boxplot of height.
+
+```{r}
+ggplot(starwars, aes(height))+geom_boxplot()
+```
+
+5.  Make a boxplot of height for each species present in the data.
+
+```{r}
+ggplot(starwars, aes(species, height))+geom_boxplot()
+```
+
+5a. change the appearance of your graph in at least 3 ways.
+
+```{r}
+ggplot(starwars, aes(species, height, color = species))+geom_boxplot()+theme_bw()+xlab("Species")+ylab("Height (cm)")+ggtitle("Character's Height by Species")+theme(axis.text.x = element_text(angle = 90))
+```
+I found how to tilt the labels on the x-axis on either the posit forum or the geeksforgeeks website, though I forget which. I also used this in the first ggplot assignment. 
+
+6.  Using any variables in the starwars dataset, create a graph that uses a color palette from viridis.
+
+```{r}
+library(viridis)
+ggplot(starwars, aes(mass, fill = homeworld))+ geom_histogram()+scale_fill_viridis(discrete = TRUE, option = "A")+theme_bw()
+```
+
+7.Using any variables in the starwars dataset, create a graph that uses a color palette from RColorBrewer.
+
+```{r}
+ggplot(starwars, aes(homeworld, species, color = sex))+geom_point()+scale_color_brewer(palette = "RdBu")+theme_bw()+theme(axis.text.x = element_text(angle = 90))
+```
+
+8.  Using any variables in the starwars dataset, create a graph using facet_wrap
+
+```{r}
+ggplot(starwars, aes(mass, height, color = species))+geom_point()+theme_bw()+facet_wrap(~sex)
+```

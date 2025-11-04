@@ -28,7 +28,7 @@ sleepWide <- pivot_wider(sleep, id_cols = c("ID"), names_from = "group", values_
 
 4. Transform your data back to its original format.
 ```{r}
-sleepLong <- pivot_longer(sleepWide, cols = c("1", "2"), names_to = "DrugGiven", values_to = "SleepChange")
+sleepLong <- pivot_longer(sleepWide, cols = c("1", "2"), names_to = "Drug Given", values_to = "Sleep Change")
 ```
 
 5. Open the Starwars dataset
@@ -38,22 +38,26 @@ data(starwars)
 
 6. Create homeworld as a factor. How many levels does it have? 
 ```{r}
-homeworld <- 
+class(starwars$homeworld)
+starwars$homeworldFactor<- as.factor(starwars$homeworld)
+starwars$homeworldFactor
 ```
+It has 48 levels. 
 
 7. Reorder homeworld so that Naboo is the reference group. 
 ```{r}
-
+starwars$homeworldFactor<- relevel(starwars$homeworldFactor, ref = "Naboo")
+starwars$homeworldFactor
 ```
 
 8. Use mutate to create a column transforming kg to pounds. (hint: you may need to look up the conversion)
 ```{r}
-
+starwars %>% mutate(pounds = mass/2.20462)
 ```
 
 9. Print a summary of your column from #8
 ```{r}
-
+summary(starwars$mass)
 ```
 
 #Part 2
@@ -64,7 +68,7 @@ data(billboard)
 
 11. are the data in this dataframe in long or wide format? explain how you know. 
 
-The data in this dataframe are in wide format. I can tell this because the information pertaining to the subject is on one row rather than in multiple rows. 
+The data in this dataframe is in wide format. I can tell this because the information pertaining to the subject is on one row rather than in multiple rows. 
 
 12. change the data from its original format to the other version. 
 ```{r}
@@ -72,12 +76,14 @@ billboardLong <- pivot_longer(billboard, cols = c(4:79), names_to = "Week", valu
 ```
 
 13. change it from your altered version in #3 back to its original state. 
-```{r}
 
+My assumption is it is meant to be the original state from #12? So that is what this is:
+```{r}
+billboardWide<-pivot_wider(billboardLong, id_cols = c("artist", "track", "date.entered"), names_from = "Week", values_from = "Ranking")
 ```
 
 14. Separate the date entered column into three columns: one for year, one for month, and one for day. 
 ```{r}
-
+separate(billboardWide, date.entered, into = c("Year", "Month", "Day"), sep = "-")
 ```
-
+I found the solution of using the "-" to separate each part of the date by looking at a forum on posit where someone asked about separating dates, and one of the commenters mentioned trying that, so I did and it worked!

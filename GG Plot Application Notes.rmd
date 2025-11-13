@@ -200,7 +200,7 @@ ui <- fluidPage(
 
 server <- function(input, output) {
   output$hist <- renderPlot({
-    ggplot(, aes(rnorm(input$number)))+ geom_histogram(fill="darksalmon")+theme_classic()
+    ggplot(, aes(rnorm(input$number)))+ geom_histogram(fill="darksalmon")+theme_bw()
   })
 }
 
@@ -212,7 +212,7 @@ shinyApp(ui = ui, server = server)
 ui <- fluidPage(
   sliderInput(inputId = "number", 
     label = "Pick a number", 
-    value = 2500, min = 1, max = 5000))
+    value = 2500, min = 1, max = 37500))
 server <- function(input, output) {}
 
 shinyApp(ui = ui, server = server)
@@ -224,12 +224,12 @@ shinyApp(ui = ui, server = server)
 ui <- fluidPage(
   sliderInput(inputId = "number", 
     label = "Pick a number", 
-    value = 2500, min = 1, max = 5000), plotOutput("hist")
+    value = 2500, min = 0, max = 37500), plotOutput("hist")
 )
 
 server <- function(input, output) {
   output$hist <- renderPlot({
-    ggplot(, aes(rnorm(input$number)))+ geom_histogram(fill="midnightblue")+theme_classic()
+    ggplot(, aes(rnorm(input$number)))+ geom_histogram(fill="steelblue3")+theme_bw()
   })
 }
 
@@ -241,7 +241,7 @@ shinyApp(ui = ui, server = server)
 ui <- fluidPage(
   sliderInput(inputId = "number", 
     label = "Pick a number", 
-    value = 2500, min = 1, max = 5000), plotOutput("boxp")
+    value = 2500, min = 0, max = 5000), plotOutput("boxp")
 )
 
 server <- function(input, output) {

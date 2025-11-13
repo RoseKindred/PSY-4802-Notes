@@ -25,26 +25,33 @@ starwars<-separate(starwars, films, into = c("Film1", "Film2", "Film3", "Film4",
 
 3. alter the data from wide data to long data
 ```{r}
-starwarsLong<-pivot_longer(starwars, cols = c(2:11), names_to = c("DemographicInfo"), values_to = "DemographicInfo")
+starwars<-separate(starwars, vehicles, into = c("Vehicle1", "Vehicle2"), sep = ",")
+starwars<-separate(starwars, starships, into = c("Starship1", "Starship2", "Starship3", "Starship4", "Starship5"), sep = ",")
+starwarsLong<-pivot_longer(starwars, cols = c("hair_color", "skin_color", "eye_color", "sex", "gender", "homeworld", "species", "Film1", "Film2", "Film3", "Film4", "Film5", "Film6", "Film7", "Vehicle1", "Vehicle2", "Starship1", "Starship2", "Starship3", "Starship4", "Starship5"), names_to = "NameOfDemographic", values_to = "DemographicInformation")
 ```
 
 4. in the column where you stored the films, rename the levels so each film name is consistent (e.g. get rid of the "c(" and ")" )
 ```{r}
-
+starwarsLong$DemographicInformation <- gsub('["()]|c\\(', '', starwarsLong$DemographicInformation)
 ```
+I found this code on DigitalOcean which is a forum where someone mentioned that this could remove that information. 
+
 
 5. Create a column in your dataset that indicates whether a character was in the first starwars film, *Star Wars Episode IV: A New Hope* 
 ```{r}
-
+starwarsLong$NewHopeAppearance<-NA
+starwarsLong$NewHopeAppearance<-ifelse(starwarsLong$DemographicInformation=="A New Hope", "Yes", "No")
 ```
 
 6. BMI is calculated as mass in Kg/height in meters squared. You currently have mass in Kg and height in cm. Create a column that contains each character's BMI. 
 ```{r}
-
+starwarsLong$BMI<-NA
+starwarsLong<-starwarsLong %>% mutate(BMI = mass/sqrt((height/100)))
 ```
 
 7. create a dataframe that contains only the name, hair color, and eye color for each character. 
 ```{r}
-
+SimplifiedDataSW<- data.frame(starwars$name, starwars$hair_color, starwars$eye_color)
+print(SimplifiedDataSW)
 ```
 

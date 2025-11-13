@@ -1,0 +1,71 @@
+---
+title: "GG Plot Quiz"
+output: html_document
+date: "2025-11-05"
+---
+---
+title: "Quiz 3"
+author: "Amanda Mae Woodward"
+date: "2025-10-30"
+output: html_document
+---
+1. Load the spotify dataset (available in github repository).
+```{r}
+library(readr)
+SpotifyDat <- read_csv("spotifyDat.csv")
+```
+
+2. Create a bar graph of the artist column (Hint: use theme(axis.text.x = element_text(angle = 90)) to rotate the x axis).
+```{r}
+library(ggplot2)
+ggplot(SpotifyDat, aes(x = artist, y = popularity))+geom_bar(stat = "identity", position = "dodge", width = 0.4)+theme(axis.text.x = element_text(angle = 90))
+```
+
+3. Add genre as a third variable in your graph.
+```{r}
+ggplot(SpotifyDat, aes(x = artist, y = popularity, fill = genre))+geom_bar(stat = "identity", position = "dodge", width = 0.4)+theme(axis.text.x = element_text(angle = 90))
+```
+
+4. Use color brewer to add color to your graph in 3. 
+```{r}
+library(RColorBrewer)
+ggplot(SpotifyDat, aes(x = artist, y = popularity, fill = genre))+geom_bar(stat = "identity", position = "dodge", width = 0.4)+scale_fill_brewer(palette = "RdBu")+theme(axis.text.x = element_text(angle = 90))
+```
+
+5. Place the legend for the graph you made in 3 on the bottom of the graph. 
+```{r}
+ggplot(SpotifyDat, aes(x = artist, y = popularity, fill = genre))+geom_bar(stat = "identity", position = "dodge", width = 0.4)+scale_fill_brewer(palette = "RdBu")+theme(axis.text.x = element_text(angle = 90))+theme(legend.position = "bottom")
+```
+
+As you probably recognized, the graph you made is really hard to read.
+
+6. Separate the genre column into multiple columns (e.g. so each genre listed is in a unique column)
+```{r}
+ggplot(SpotifyDat, aes(x = artist, y = popularity, fill = genre))+geom_bar(stat = "identity", position = "dodge", width = 0.4)+scale_fill_brewer(palette = "RdBu")+theme(axis.text.x = element_text(angle = 90))+theme(legend.position = "bottom")+facet_wrap(~genre)
+```
+
+7. Use these genre columns to create a dataset in long format. 
+```{r}
+library(tidyverse)
+spotifyLong<- pivot_longer(SpotifyDat, cols = c("artist", "song", "popularity", "danceability", "tempo"), names_to = "variousData", values_to = "variousScore")
+```
+
+8.use facet wrap to make graphs of artist by genre 
+```{r}
+
+```
+
+9. Create a graph that includes the variables tempo and dancability. 
+```{r}
+
+```
+
+10. Add popularity as a third variable. 
+```{r}
+
+```
+
+11. Use viridis as a color in your graph from #10
+```{r}
+
+```
